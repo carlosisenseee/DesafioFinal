@@ -7,12 +7,14 @@ public class Jogador {
         jogadasFeitas = 0;
     }
 
-    public void adicionarPontos() {
-        pontuacao = pontuacao + 10;
-    }
-
-    public void removerPontos() {
-        pontuacao = pontuacao - 5;
+    public void contadorDePontos(Mapa mapa, int linha, int coluna) {
+        if (mapa.mapa[linha][coluna].equals(" T ") ) {
+            pontuacao += 10;
+        }
+        if (mapa.mapa[linha][coluna].equals(" A ") ) {
+            pontuacao -= 5;
+        }
+        jogadasFeitas++;
     }
 
     public int getPontuacao() {

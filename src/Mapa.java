@@ -3,11 +3,10 @@ import java.util.Random;
 public class Mapa {
     private int linhas;
     private int colunas;
-
+    public String[][] mapa;
+    public String[][] mapaOculto;
     private int tesouros;
     private int bombas;
-    String[][] mapa = new String[linhas][colunas];
-    public String[][] mapaOculto = new String[linhas][colunas];
     Random gerador = new Random();
 
     public Mapa(int linhas, int colunas, int tesouros, int bombas) {
@@ -15,6 +14,9 @@ public class Mapa {
         setColunas(colunas);
         setTesouros(tesouros);
         setBombas(bombas);
+
+        mapa = new String[this.linhas][this.colunas];
+        mapaOculto  = new String[linhas][colunas];
     }
 
     public void criaElementos(int tesouros, int bombas) {
@@ -93,10 +95,21 @@ public class Mapa {
         }
     }
 
+    public void cavar(int linha, int coluna) {
+        if (mapaOculto[linha][coluna] == " t ") {
+            mapa[linha][coluna] = " T ";
+        }
+        if (mapaOculto[linha][coluna] == " a ") {
+            mapa[linha][coluna] = " A ";
+        }
+        if (mapaOculto[linha][coluna] == " ~ ") {
+            mapa[linha][coluna] = " O ";
+        }
+    }
+
     public int getLinhas() {
         return linhas;
     }
-
     public void setLinhas(int linhas) {
         if (linhas <= 0) {
             System.out.println("Valor Invalido");
@@ -104,11 +117,9 @@ public class Mapa {
             this.linhas = linhas;
         }
     }
-
     public int getColunas() {
         return colunas;
     }
-
     public void setColunas(int colunas) {
         if (colunas <= 0) {
             System.out.println("Valor Invalido");
@@ -116,11 +127,9 @@ public class Mapa {
             this.colunas = colunas;
         }
     }
-
     public int getTesouros() {
         return tesouros;
     }
-
     public void setTesouros(int tesouros) {
         if (tesouros < 0) {
             System.out.println("Valor Invalido");
@@ -128,11 +137,9 @@ public class Mapa {
             this.tesouros = tesouros;
         }
     }
-
     public int getBombas() {
         return bombas;
     }
-
     public void setBombas(int bombas) {
         if (bombas <= 0) {
             System.out.println("Valor Invalido");
