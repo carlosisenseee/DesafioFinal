@@ -3,10 +3,11 @@ import java.util.Random;
 public class Mapa {
     private int linhas;
     private int colunas;
-    public String[][] mapa;
-    public String[][] mapaOculto;
+    public static String[][] mapa;
+    public static String[][] mapaOculto;
     private int tesouros;
     private int bombas;
+    private int tesourosEncontrados;
     Random gerador = new Random();
 
     public Mapa(int linhas, int colunas, int tesouros, int bombas) {
@@ -14,54 +15,48 @@ public class Mapa {
         setColunas(colunas);
         setTesouros(tesouros);
         setBombas(bombas);
+        tesourosEncontrados = 0;
 
         mapa = new String[this.linhas][this.colunas];
         mapaOculto  = new String[linhas][colunas];
     }
 
-    public void criaElementos(int tesouros, int bombas) {
-        int[] tesourosColunas = new int[tesouros + bombas]; //tesouros ficam ate o indice 7, e apartir disso são bombas!
+    public void criaElementos() {
+        int[] tesourosColunas = new int[tesouros + bombas]; //tesouros ficam ate o indice 7, e apartir disso são bombas
         int[] tesourosLinhas = new int[tesouros + bombas];
-        //Cria tesouros e bombas
-        for (int i = 0; i < tesouros + bombas; i++) {
+        int i = 0;
+
+        while (i < (tesouros + bombas)) {
             int linha = gerador.nextInt(linhas);
             int coluna = gerador.nextInt(colunas);
-            if (i <= 7) {
-                for (int j = 0; j < i; j++) {
-                    if (tesourosLinhas[j] == linha) {
-                        if (tesourosColunas[j] == coluna) {
-                            linha = gerador.nextInt(tesouros);
-                            coluna = gerador.nextInt(tesouros);
-                        }
-                    }
-                }
-                tesourosLinhas[i] = linha;
-                tesourosColunas[i] = coluna;
-                mapaOculto[linha][coluna] = " t ";
-            } else {
-                for (int j = 0; j < i; j++) {
-                    if (tesourosLinhas[j] == linha) {
-                        if (tesourosColunas[j] == coluna) {
-                            linha = gerador.nextInt(tesouros);
-                            coluna = gerador.nextInt(tesouros);
-                        }
-                    }
-                }
-                tesourosLinhas[i] = linha;
-                tesourosColunas[i] = coluna;
-                mapaOculto[linha][coluna] = " a ";
-            }
-        }
+            boolean repetido = false;
 
-        //Cria a areia
-        for (int i = 0; i < linhas; i++) {
-            for (int j = 0; j < colunas; j++) {
-                if (mapaOculto[i][j] == null) {
-                    mapaOculto[i][j] = " ~ ";
+            for (int j = 0; j < i; j++) {
+                if ((tesourosLinhas[j] == linha) && (tesourosColunas[j] == coluna)) {
+                        repetido = true;
+                        break;
+                    }
+                }
+            if (!repetido) {
+                tesourosLinhas[i] = linha;
+                tesourosColunas[i] = coluna;
+                if (i <= 7) {
+                    mapaOculto[tesourosLinhas[i]][tesourosColunas[i]] = " t ";
+                } else {
+                    mapaOculto[tesourosLinhas[i]][tesourosColunas[i]] = " a ";
+                }
+                i++;
+            }
+        }
+            //Cria a areia
+            for (int x = 0; x < linhas; x++) {
+                for (int j = 0; j < colunas; j++) {
+                    if (mapaOculto[x][j] == null) {
+                        mapaOculto[x][j] = " ~ ";
+                    }
                 }
             }
         }
-    }
 
     public void preencherMapa() {
         for (int i = 0; i < getLinhas(); i++) {
@@ -98,15 +93,22 @@ public class Mapa {
     public void cavar(int linha, int coluna) {
         if (mapaOculto[linha][coluna] == " t ") {
             mapa[linha][coluna] = " T ";
+            System.out.println("Você encontrou um tesouro!");
+            tesourosEncontrados++;
         }
         if (mapaOculto[linha][coluna] == " a ") {
             mapa[linha][coluna] = " A ";
+            System.out.println("Você encontrou uma armadinha :(");
         }
         if (mapaOculto[linha][coluna] == " ~ ") {
             mapa[linha][coluna] = " O ";
+            System.out.println("Você errou, encontrou areia");
         }
     }
 
+    public int getTesourosEncontrados() {
+        return tesourosEncontrados;
+    }
     public int getLinhas() {
         return linhas;
     }
