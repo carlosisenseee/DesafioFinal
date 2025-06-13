@@ -4,7 +4,7 @@ public class Jogador {
 
     public Jogador() {
         pontuacao = 0;
-        jogadasFeitas = 1;
+        jogadasFeitas = 0;
     }
 
     public void contadorDePontos(Mapa mapa, int linha, int coluna) {

@@ -21,7 +21,7 @@ public class Mapa {
         mapaOculto  = new String[linhas][colunas];
     }
 
-    public void criaElementos() {
+    public void preencheMapaOculto() {
         int[] tesourosColunas = new int[tesouros + bombas]; //tesouros ficam ate o indice 7, e apartir disso são bombas
         int[] tesourosLinhas = new int[tesouros + bombas];
         int i = 0;
@@ -30,7 +30,6 @@ public class Mapa {
             int linha = gerador.nextInt(linhas);
             int coluna = gerador.nextInt(colunas);
             boolean repetido = false;
-
             for (int j = 0; j < i; j++) {
                 if ((tesourosLinhas[j] == linha) && (tesourosColunas[j] == coluna)) {
                         repetido = true;
