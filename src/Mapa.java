@@ -90,16 +90,16 @@ public class Mapa {
     }
 
     public void cavar(int linha, int coluna) {
-        if (mapaOculto[linha][coluna] == " t ") {
+        if (mapaOculto[linha][coluna].equals(" t ")) {
             mapa[linha][coluna] = " T ";
             System.out.println("Você encontrou um tesouro!");
             tesourosEncontrados++;
         }
-        if (mapaOculto[linha][coluna] == " a ") {
+        if (mapaOculto[linha][coluna].equals(" a ")) {
             mapa[linha][coluna] = " A ";
             System.out.println("Você encontrou uma armadinha :(");
         }
-        if (mapaOculto[linha][coluna] == " ~ ") {
+        if (mapaOculto[linha][coluna].equals(" ~ ")) {
             mapa[linha][coluna] = " O ";
             System.out.println("Você errou, encontrou areia");
         }
